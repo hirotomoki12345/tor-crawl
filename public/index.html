@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onion Search Engine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #cfcfcf;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #2c2c2c;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            margin-top: 0;
+            color: #4caf50; /* 緑色 */
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #4caf50; /* 緑色のボーダー */
+            border-radius: 4px;
+            background-color: #333;
+            color: #cfcfcf;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            background-color: #4caf50; /* 緑色の背景 */
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #388e3c; /* 緑色の濃いバージョン */
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #4caf50; /* 緑色のボーダー */
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        a {
+            color: #4caf50; /* 緑色 */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Onion Search Engine</h1>
+        <input type="text" id="searchInput" placeholder="検索キーワードを入力してEnterキーを押してください">
+        <button onclick="search()">検索</button>
+        <div id="results" class="results"></div>
+    </div>
+    <script>
+        function search() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (query) {
+                fetch(`/search?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const resultsDiv = document.getElementById('results');
+                        resultsDiv.innerHTML = '';
+                        if (data.length > 0) {
+                            data.forEach(result => {
+                                const resultElement = document.createElement('div');
+                                resultElement.className = 'result-item';
+                                resultElement.innerHTML = `
+                                    <a href="${result.url}" target="_blank">${result.title || 'No Title'}</a>
+                                    <p>${result.url}</p>
+                                    <p>アクセス時間: ${result.access_time_ms}ms</p>
+                                    <p>キーワード: ${result.keywords || 'No Keywords'}</p>
+                                `;
+                                resultsDiv.appendChild(resultElement);
+                            });
+                        } else {
+                            resultsDiv.innerHTML = '<p>結果が見つかりませんでした。</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching search results:', error);
+                    });
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                search();
+            }
+        });
+    </script>
+</body>
+</html>
