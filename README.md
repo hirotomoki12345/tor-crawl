@@ -165,8 +165,8 @@
 1. **プロジェクトをクローン**
 
     ```bash
-    git clone https://github.com/username/repository.git
-    cd repository
+    git clone https://github.com/hirotomoki12345/tor-crawl.git
+    cd tor-crawl
     ```
 
 2. **依存関係をインストール**
@@ -181,7 +181,7 @@
 
 - **`crawler.js`**: OnionサービスのURLをランダムに生成し、MySQLに保存します。
 - **`server.js`**: 検索エンジンのサーバーサイドスクリプトです。
-- **`public/index.html`**: 検索インターフェースのHTMLです。
+- **`public/index.html`**: 検索エンジンのHTMLインターフェースです。
 
 ### 6. 動作確認
 
@@ -213,7 +213,7 @@
 
 ## 貢献
 
-バグ報告や機能の追加提案がある場合は、[GitHubのイシュートラッカー](https://github.com/username/repository/issues) を利用してください。
+バグ報告や機能の追加提案がある場合は、[GitHubのイシュートラッカー](https://github.com/hirotomoki12345/tor-crawl/issues) を利用してください。
 
 ## ライセンス
 
